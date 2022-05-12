@@ -15,4 +15,4 @@ __pycache__
 # Docs
 docs/build
 docs/source/generated
-docs/source/entity_gym
+docs/source/enn_trainer
