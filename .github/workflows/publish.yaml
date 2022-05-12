@@ -9,9 +9,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: entity_gym
     strategy:
       matrix:
         python-version: [3.8]
@@ -55,7 +52,7 @@ jobs:
       - name: Install library
         run: poetry install --no-interaction
 
-      - name: Publish entity-gym to PyPI
+      - name: Publish enn-trainer to PyPI
         run: |
           poetry build
           poetry publish --username __token__ --password ${{ secrets.PYPI_API_TOKEN }}
