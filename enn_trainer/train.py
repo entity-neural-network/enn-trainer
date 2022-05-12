@@ -79,7 +79,7 @@ def _env_factory(
     ) -> VecEnv:
         kwargs = json.loads(cfg.kwargs)
         if cfg.validate:
-            create_env = lambda: ValidatingEnv(env_cls(**kwargs))  # type: ignore
+            create_env = lambda: ValidatingEnv(env_cls(**kwargs))
         else:
             create_env = lambda: env_cls(**kwargs)  # type: ignore
         if processes > 1:
@@ -196,8 +196,8 @@ def train(
     torch.manual_seed(cfg.seed)
     torch.backends.cudnn.deterministic = cfg.torch_deterministic
 
-    if inspect.isclass(env) and issubclass(env, Environment):  # type: ignore
-        create_env: EnvFactory = _env_factory(env)  # type: ignore
+    if inspect.isclass(env) and issubclass(env, Environment):
+        create_env: EnvFactory = _env_factory(env)
     else:
         create_env = env  # type: ignore
     envs: VecEnv = AddMetricsWrapper(
@@ -421,7 +421,7 @@ def train(
                     b_action_masks = action_masks[mb_inds]
                     b_logprobs = logprobs[mb_inds]
                     b_actions = actions[mb_inds]
-                    mb_advantages = b_advantages[mb_inds]
+                    mb_advantages = b_advantages[mb_inds] # type: ignore
 
                     with tracer.span("forward"):
                         (
@@ -453,8 +453,8 @@ def train(
                     v_loss = value_loss(
                         cfg.ppo,
                         newvalue,
-                        b_returns[mb_inds],
-                        b_values[mb_inds],
+                        b_returns[mb_inds], # type: ignore
+                        b_values[mb_inds], # type: ignore
                         tracer,
                     )
 
