@@ -13,6 +13,6 @@ __pycache__
 *.orig
 
 # Docs
-entity_gym/docs/build
-entity_gym/docs/source/generated
-entity_gym/docs/source/entity_gym
+docs/build
+docs/source/generated
+docs/source/entity_gym
