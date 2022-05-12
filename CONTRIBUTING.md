@@ -21,14 +21,14 @@ Then you can run the scripts under the poetry environment in two ways: `poetry r
 * `poetry run`:
     By prefixing `poetry run`, your command will run in poetry's virtual environment. For example, try running
     ```bash
-    poetry run python enn_ppo/enn_ppo/train.py
+    poetry run python enn_trainer/train.py
     ```
 * `poetry shell`:
     First, activate the poetry's virtual environment by executing `poetry shell`. Then, the name of the poetry's
     virtual environment (e.g. `(incubator-EKBuw-J_-py3.9)`) should appear in the left side of your shell.
     Afterwards, you can directly run
     ```bash
-    python enn_ppo/enn_ppo/train.py
+    python enn_trainer/train.py
     ```
 
 ### Common Build Problems
@@ -57,8 +57,8 @@ libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-d
 ## Code Style
 
 We use [Pre-commit](https://pre-commit.com/) to 
-<!-- * sort dependencies
-* remove unused variables and imports -->
+* sort dependencies
+* remove unused variables and imports
 * format code using black (via `black`)
 * check word spelling (via `codespell`)
 * check typing (via `mypy`)
@@ -77,7 +77,7 @@ poetry run pytest .
 
 ## Building docs
 
-To build the documentation for entity-gym, go to the entity_gym/docs folder and run the following command:
+To build the documentation, go to the docs folder and run the following command:
 
 ```bash
 poetry run make html
@@ -86,13 +86,13 @@ poetry run make html
 You can use [watchexec](https://github.com/watchexec/watchexec) to automatically rebuild the documentation on changes:
 
 ```
-watchexec -w ../entity_gym -w source -i source/generated -i source/entity_gym -- poetry run make html
+watchexec -w ../enn_trainer -w source -i source/generated -i source/enn_trainer -- poetry run make html
 ```
 
-You can view the generated docs by openaing `entity_gym/docs/build/html` in a browser.
+You can view the generated docs by openaing `docs/build/html` in a browser.
 
 Some files won't be automatically cleaned up after the build, so you can manually clean up the build directory by running:
 
 ```
-poetry run make clean && rm -rf source/generated source/entity_gym
+poetry run make clean && rm -rf source/generated source/enn_trainer
 ```

@@ -6,7 +6,7 @@ from hyperstate.schema.schema_change import Severity
 from hyperstate.schema.schema_checker import SchemaChecker
 from hyperstate.schema.types import load_schema
 
-from enn_ppo.config import TrainConfig
+from enn_trainer.config import TrainConfig
 
 
 def test_schema() -> None:
@@ -23,8 +23,7 @@ def test_schema() -> None:
 
 
 def test_configs() -> None:
-    for subdir in ["entity-gym", "procgen"]:
-        config_dir = Path(__file__).parent.parent.parent.parent / "configs" / subdir
-        for config_file in listdir(config_dir):
-            print(config_file)
-            hyperstate.load(TrainConfig, config_dir / config_file)
+    config_dir = Path(__file__).parent.parent.parent / "configs" / "entity-gym"
+    for config_file in listdir(config_dir):
+        print(config_file)
+        hyperstate.load(TrainConfig, config_dir / config_file)

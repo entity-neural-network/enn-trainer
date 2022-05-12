@@ -10,7 +10,6 @@ from entity_gym.env.environment import ActionName
 from entity_gym.env.vec_env import batch_obs
 from entity_gym.simple_trace import Tracer
 from ragged_buffer import RaggedBufferBool, RaggedBufferF32, RaggedBufferI64
-
 from rogue_net.rogue_net import RogueNet
 
 

@@ -16,9 +16,8 @@ from entity_gym.serialization import Trace
 from entity_gym.serialization.sample_loader import Episode, MergedSamples
 from entity_gym.simple_trace import Tracer
 from ragged_buffer import RaggedBufferBool, RaggedBufferF32, RaggedBufferI64
-from torch.optim import AdamW
-
 from rogue_net.rogue_net import RogueNet, RogueNetConfig
+from torch.optim import AdamW
 
 
 @dataclass

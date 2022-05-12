@@ -10,9 +10,9 @@ from entity_gym.serialization import SampleRecordingVecEnv
 from entity_gym.simple_trace import Tracer
 from torch.utils.tensorboard import SummaryWriter
 
-from enn_ppo.agent import PPOAgent
-from enn_ppo.config import EnvConfig, EvalConfig, RolloutConfig
-from enn_ppo.rollout import Rollout
+from enn_trainer.agent import PPOAgent
+from enn_trainer.config import EnvConfig, EvalConfig, RolloutConfig
+from enn_trainer.rollout import Rollout
 
 
 def run_eval(

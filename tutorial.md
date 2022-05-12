@@ -2,7 +2,7 @@
 # Tutorial
 
 In this tutorial, you will learn how to:
-1. [Install](#installation) the enn_ppo package
+1. [Install](#installation) the enn_trainer package
 2. [Train](#training) a neural network to solve an [entity gym](TODO-LINK) environment
 3. [Accelerate](#positional-encoding) learning with [relative positional encoding](TODO-LINK)
 4. [Create](#config-files) a hyperparameter config file
@@ -10,10 +10,10 @@ In this tutorial, you will learn how to:
 
 ## Installation
 
-To install the enn_ppo package, run the following command:
+To install the enn_trainer package, run the following command:
 
 ```bash
-pip install enn_ppo
+pip install enn_trainer
 ```
 
 ## Training
@@ -22,8 +22,8 @@ We are going to train a neural network to solve the [TreasureHunt environment](T
 Setting up a training script takes just a few lines of code:
 
 ```python
-from enn_ppo.config import TrainConfig
-from enn_ppo.train import State, initialize, train
+from enn_trainer.config import TrainConfig
+from enn_trainer.train import State, initialize, train
 from entity_gym.examples.xor import Xor
 import hyperstate
 
@@ -139,8 +139,8 @@ We can now load this checkpoint.
 Paste the following code into a Python console:
 
 ```python
-from enn_ppo import load_checkpoint
-from enn_ppo.agent import RogueNetAgent
+from enn_trainer import load_checkpoint
+from enn_trainer.agent import RogueNetAgent
 from entity_gym.env import *
 checkpoint = load_checkpoint("checkpoints/latest-step000000098304")
 agent = RogueNetAgent(checkpoint.state.agent)

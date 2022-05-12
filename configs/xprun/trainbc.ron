@@ -1,0 +1,74 @@
+XpV0(
+    project: "enn",
+    containers: {
+        "main": (
+            command: ["poetry", "run", "python", "-u", "enn_zoo/enn_zoo/supervised.py"],
+            build: [
+                From("nvcr.io/nvidia/pytorch:21.03-py3"),
+
+                // Install Poetry
+                Run("curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -"),
+                Env("PATH", "/root/.poetry/bin:${PATH}"),
+
+                // Cache dependencies by installing them at fixed commit (to avoid long rebuilds when changing dependencies)
+                Repo(
+                    paths: [
+                        "pyproject.toml",
+                        "poetry.lock",
+                        "rogue_net/pyproject.toml",
+                        "rogue_net/poetry.lock",
+                        "rogue_net/rogue_net/__init__.py",
+                        "enn_ppo/pyproject.toml",
+                        "enn_ppo/poetry.lock",
+                        "enn_ppo/enn_ppo/__init__.py",
+                        "entity_gym/pyproject.toml",
+                        "entity_gym/poetry.lock",
+                        "entity_gym/entity_gym/__init__.py",
+                        "enn_zoo/pyproject.toml",
+                        "enn_zoo/poetry.lock",
+                        "enn_zoo/enn_zoo/__init__.py",
+                    ],
+                    target_dir: "/root/enn-incubator",
+                    cd: true,
+                    rev: "cf16b20",
+                ),
+
+                Run("poetry install"),
+                Run("poetry run pip install setuptools==59.5.0"),
+                Run("poetry run pip install torch==1.10.2+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html"),
+                Run("poetry run pip install torch-scatter -f https://data.pyg.org/whl/torch-1.10.0+cu113.html"),
+
+                Repo(
+                    paths: [
+                        "pyproject.toml",
+                        "poetry.lock",
+                        "rogue_net/pyproject.toml",
+                        "rogue_net/poetry.lock",
+                        "rogue_net/rogue_net/__init__.py",
+                        "enn_ppo/pyproject.toml",
+                        "enn_ppo/poetry.lock",
+                        "enn_ppo/enn_ppo/__init__.py",
+                        "entity_gym/pyproject.toml",
+                        "entity_gym/poetry.lock",
+                        "entity_gym/entity_gym/__init__.py",
+                        "enn_zoo/pyproject.toml",
+                        "enn_zoo/poetry.lock",
+                        "enn_zoo/enn_zoo/__init__.py",
+                    ],
+                    target_dir: "/root/enn-incubator",
+                    cd: true,
+                ),
+                Run("poetry install"),
+
+                Repo(cd: true),
+
+            ],
+            gpu: 1,
+            gpu_mem: "10GB",
+            cpu_mem: "20GiB",
+            env_secrets: {
+                "WANDB_API_KEY": "wandb-api-key",
+            },
+        )
+    }
+)

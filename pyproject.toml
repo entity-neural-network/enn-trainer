@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "enn_ppo"
+name = "enn-trainer"
 version = "0.1.0"
-description = "PPO training loop compatible with EntityGym"
+description = "PPO and supervised training loops compatible with entity-gym"
 authors = ["Clemens Winter <clemenswinter1@gmail.com>"]
 
 [tool.poetry.dependencies]
@@ -19,6 +19,12 @@ click = "^8.0.4"
 hyperstate = "^0.3.9"
 entity-gym = "^0.1.2"
 rogue-net = "^0.1.1"
+
+[tool.poetry.dev-dependencies]
+pre-commit = "^2.19.0"
+pytest = "^7.1.2"
+black = "^22.3.0"
+mypy = "^0.950"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

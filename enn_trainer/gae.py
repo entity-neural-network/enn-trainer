@@ -5,7 +5,7 @@ import torch
 from entity_gym.env import *
 from entity_gym.simple_trace import Tracer
 
-from enn_ppo.agent import PPOAgent
+from enn_trainer.agent import PPOAgent
 
 from .config import *
 

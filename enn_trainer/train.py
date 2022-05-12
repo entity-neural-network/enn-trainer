@@ -22,15 +22,15 @@ from entity_gym.examples import ENV_REGISTRY
 from entity_gym.serialization import SampleRecordingVecEnv
 from entity_gym.simple_trace import Tracer
 from hyperstate import StateManager
+from rogue_net.rogue_net import RogueNet
 from torch.utils.tensorboard import SummaryWriter
 
-from enn_ppo.agent import PPOAgent
-from enn_ppo.config import *
-from enn_ppo.eval import run_eval
-from enn_ppo.gae import returns_and_advantages
-from enn_ppo.ppo import ppo_loss, value_loss
-from enn_ppo.rollout import Rollout
-from rogue_net.rogue_net import RogueNet
+from enn_trainer.agent import PPOAgent
+from enn_trainer.config import *
+from enn_trainer.eval import run_eval
+from enn_trainer.gae import returns_and_advantages
+from enn_trainer.ppo import ppo_loss, value_loss
+from enn_trainer.rollout import Rollout
 
 EnvFactory = Callable[[EnvConfig, int, int, int], VecEnv]
 

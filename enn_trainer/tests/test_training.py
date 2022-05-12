@@ -1,9 +1,10 @@
 from entity_gym.examples import ENV_REGISTRY
 from hyperstate import StateManager
 from rogue_net.relpos_encoding import RelposEncodingConfig
+from rogue_net.rogue_net import RogueNetConfig
 
-from enn_ppo.config import RolloutConfig
-from enn_ppo.train import (
+from enn_trainer.config import RolloutConfig
+from enn_trainer.train import (
     EnvConfig,
     OptimizerConfig,
     PPOConfig,
@@ -12,7 +13,6 @@ from enn_ppo.train import (
     initialize,
     train,
 )
-from rogue_net.rogue_net import RogueNetConfig
 
 
 def _train(cfg: TrainConfig) -> float:

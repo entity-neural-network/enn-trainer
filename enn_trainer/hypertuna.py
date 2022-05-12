@@ -535,7 +535,7 @@ if __name__ == "__main__":
 
 
 """
-poetry run python enn_ppo/enn_ppo/hypertuna.py --track --adaptive-trials --steps=1e9 --time=7200 --n_trials=10 --xps_per_trial=15 --priority=3 --target-metric=episodic_return.mean --parallelism=16 --average-frac=0.05 --max-microbatch-size=2048 \
+poetry run python enn_trainer/enn_trainer/hypertuna.py --track --adaptive-trials --steps=1e9 --time=7200 --n_trials=10 --xps_per_trial=15 --priority=3 --target-metric=episodic_return.mean --parallelism=16 --average-frac=0.05 --max-microbatch-size=2048 \
                                                             --params \
                                                                 learning-rate=0.005:100 \
                                                                 gamma=0.99:10 \

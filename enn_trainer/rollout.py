@@ -10,9 +10,9 @@ from entity_gym.ragged_dict import RaggedActionDict, RaggedBatchDict
 from entity_gym.serialization.sample_recorder import SampleRecordingVecEnv
 from entity_gym.simple_trace import Tracer
 from ragged_buffer import RaggedBufferBool, RaggedBufferF32, RaggedBufferI64
-
-from enn_ppo.agent import PPOAgent
 from rogue_net.rogue_net import tensor_dict_to_ragged
+
+from enn_trainer.agent import PPOAgent
 
 
 class Rollout:

@@ -232,9 +232,9 @@ VecObs(
 ```
 </details>
 
-## enn_ppo/train.py
+## enn_trainer/train.py
 
-The PPO implementation in `enn_ppo/train.py` accumulates the `VecObs` from multiple steps into sample buffers.
+The PPO implementation in `enn_trainer/train.py` accumulates the `VecObs` from multiple steps into sample buffers.
 These are later shuffled and split up into minibatches during the optimization phase.
 In this case, we are just looking at a single rollout step and the batch of observations is forwarded unmodified to the policy to sample actions.
 

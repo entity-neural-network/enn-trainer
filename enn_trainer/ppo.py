@@ -5,7 +5,7 @@ from entity_gym.env.environment import ActionName
 from entity_gym.simple_trace import Tracer
 from ragged_buffer import RaggedBufferF32
 
-from enn_ppo.config import PPOConfig
+from enn_trainer.config import PPOConfig
 
 
 def ppo_loss(
