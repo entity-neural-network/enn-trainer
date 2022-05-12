@@ -29,7 +29,7 @@ To install the enn_trainer package, run the following command:
 Training
 ========
 
-We are going to train a neural network to solve the [TreasureHunt environment](TODO-LINK).
+We are going to train a neural network to solve the `TreasureHunt environment <https://entity-gym.readthedocs.io/en/latest/quick-start-guide.html>`_.
 Setting up a training script takes just a few lines of code:
 
 
@@ -37,12 +37,12 @@ Setting up a training script takes just a few lines of code:
 
     from enn_trainer.config import TrainConfig
     from enn_trainer.train import State, initialize, train
-    from entity_gym.examples.xor import Xor
+    from entity_gym.examples.tutorial import TreasureHunt
     import hyperstate
 
     @hyperstate.stateful_command(TrainConfig, State, initialize)
     def main(state_manager: hyperstate.StateManager) -> None:
-        train(state_manager=state_manager, env=Xor)
+        train(state_manager=state_manager, env=TreasureHunt)
 
     if __name__ == "__main__":
         main()
@@ -51,7 +51,13 @@ Assuming you have saved the above script in a file called ``train.py``, you can 
 
 .. code-block:: console
 
-    python train.py
+    $ python train.py
+
+Or, if you want to force training to run on CPU:
+
+.. code-block:: console
+
+    $ python train.py cuda=false
 
 You should see something like the following output:
 
@@ -82,8 +88,7 @@ With the following command, you should be able to reach a reward of more than 3.
 Relative Positional Encoding
 ============================
 
-ENN-PPO supports a technique called [relative positional encoding](TODO-LINK).
-The details of how this works is somewhat complicated, but the main thing to remember is that using relative positional encoding can greatly improve performance in environments where entities have some kind of spatial relationship.
+ENN Trainer implements a technique called relative positional encoding which can greatly improve performance in environments where entities have some kind of spatial relationship.
 We can enable relative positional encoding by setting two more hyperparameters:
 
 .. code-block:: console
@@ -154,24 +159,24 @@ The checkpoint will be a directory containing 4 files:
 We can now load this checkpoint.
 Run the following code in a Python console:
 
-.. code-block:: pycon
+.. code-block:: python
 
-    >>> from enn_trainer import load_checkpoint
-    >>> from enn_trainer.agent import RogueNetAgent
-    >>> from entity_gym.env import *
-    >>> checkpoint = load_checkpoint("checkpoints/latest-step000000098304")
-    >>> agent = RogueNetAgent(checkpoint.state.agent)
-    >>> obs = Observation(
-    >>>    global_features=[0, 0],
-    >>>    features={
-    >>>        "Trap": [[-5, 0], [-2, 0], [0, 3], [0, -4], [0, -3]],
-    >>>        "Treasure": [[2, 0]],
-    >>>    },
-    >>>    done=True,
-    >>>    reward=0.0,
-    >>>    actions={"move": GlobalCategoricalActionMask()},
-    >>> )
-    >>> action, predicted_return = agent.act(obs)
+    from enn_trainer import load_checkpoint
+    from enn_trainer.agent import RogueNetAgent
+    from entity_gym.env import *
+    checkpoint = load_checkpoint('checkpoints/latest-step000000098304')
+    agent = RogueNetAgent(checkpoint.state.agent)
+    obs = Observation(
+       global_features=[0, 0],
+       features={
+           "Trap": [[-5, 0], [-2, 0], [0, 3], [0, -4], [0, -3]],
+           "Treasure": [[2, 0]],
+       },
+       done=True,
+       reward=0.0,
+       actions={"move": GlobalCategoricalActionMask()},
+    )
+    action, predicted_return = agent.act(obs)
 
 In my case, the agent chose to move left towards treasure, and the probability of all other actions are much lower. Since training is a stochastic process, you may get a different result:
 
