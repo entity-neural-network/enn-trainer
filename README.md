@@ -33,7 +33,7 @@ python -m enn_trainer.train --hps-info
 Setting up a training script for a custom entity-gym environment (replace `TreasureHunt` with your environment):
 
 ```python
-from enn_trainer.config import TrainConfig, State, init_train_state, train
+from enn_trainer import TrainConfig, State, init_train_state, train
 from entity_gym.examples.tutorial import TreasureHunt
 import hyperstate
 
