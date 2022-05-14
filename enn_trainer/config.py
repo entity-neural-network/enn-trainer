@@ -11,10 +11,9 @@ from rogue_net.rogue_net import RogueNetConfig
 class EnvConfig:
     """Environment settings.
 
-    Attributes:
-        kwargs: JSON dictionary with keyword arguments for the environment
-        id: the id of the environment
-        validate: Perform runtime checks to ensure that the environment correctly implements the interface
+    :param kwargs: JSON dictionary with keyword arguments for the environment.
+    :param id: The id of the environment.
+    :param validate: Perform runtime checks to ensure that the environment correctly implements the interface.
     """
 
     kwargs: str = "{}"
@@ -26,10 +25,9 @@ class EnvConfig:
 class RolloutConfig:
     """Settings for rollout phase of PPO.
 
-    Attributes:
-        steps: the number of steps to run in each environment per policy rollout
-        num_envs: the number of parallel game environments
-        processes: The number of processes to use to collect env data. The envs are split as equally as possible across the processes
+    :param steps: The number of steps to run in each environment per policy rollout.
+    :param num_envs: The number of parallel game environments.
+    :param processes: The number of processes to use to collect env data. The envs are split as equally as possible across the processes.
     """
 
     steps: int = 128
@@ -39,27 +37,19 @@ class RolloutConfig:
 
 @dataclass
 class EvalConfig:
-    """Evaluation settings
+    """Evaluation settings.
 
-    Attributes:
-        interval: number of global steps between evaluations
-
-        capture_videos: if --eval-render-videos is set, videos will be recorded of the environments during evaluation
-        capture_samples: if set, write the samples from evals to this file
-        capture_logits: if --eval-capture-samples is set, record full logits of the agent
-        capture_samples_subsample: only persist every nth sample, chosen randomly
-        run_on_first_step: whether to run eval on step 0
-
-        env: Settings for the eval environment. If not set, use same settings as rollouts.
-        num_envs: The number of parallel game environments to use for evaluation. If not set, use same settings as rollouts.
-        processes: The number of processes used to run the environment. If not set, use same settings as rollouts.
-
-        opponent: Path to opponent policy to evaluate against.
-        opponent_only: Don't evaluate the policy, but instead run the opponent against itself.
-
-        codecraft_eval: if toggled, run evals with CodeCraft environment
-        codecraft_eval_opponent: path to CodeCraft policy to evaluate against
-        codecraft_only_opponent: run only the opponent, not the agent
+    :param interval: Number of environment steps between evaluations.
+    :param capture_videos: Render videos of the environments during evaluation.
+    :param capture_samples: Write samples from evals to this file.
+    :param capture_logits: Record full logits of the agent during evaluation (requires ``capture_samples``).
+    :param capture_samples_subsample: Only persist every nth sample, chosen randomly (requires ``capture_samples``).
+    :param run_on_first_step: Whether to run an eval on step 0.
+    :param env: Settings for the eval environment. If not set, use same settings as rollouts.
+    :param num_envs: The number of parallel game environments to use for evaluation. If not set, use same settings as rollouts.
+    :param processes: The number of processes used to run the environment. If not set, use same settings as rollouts.
+    :param opponent: Path to opponent policy to evaluate against.
+    :param opponent_only: Don't evaluate the policy, but instead run the opponent against itself.
     """
 
     steps: int
@@ -81,17 +71,16 @@ class EvalConfig:
 class PPOConfig:
     """Proximal Policy Optimization settings.
 
-    Attributes:
-        gae: whether to use GAE for advantage computation
-        gamma: the discount factor gamma
-        gae_lambda: the lambda for the general advantage estimation
-        norm_adv: whether to normalize advantages
-        clip_coef: the surrogate clipping coefficient
-        clip_vloss: whether or not to use a clipped loss for the value function, as per the paper
-        ent_coef: coefficient of the entropy
-        vf_coef: coefficient of the value function
-        target_kl: the target KL divergence threshold
-        anneal_entropy: whether to anneal the entropy coefficient
+    :param gae: Whether to use generalized advantage estimation for advantage computation.
+    :param gamma: Temporal discount factor gamma.
+    :param gae_lambda: The lambda for the generalized advantage estimation.
+    :param norm_adv: Normalize advantages to 0 mean and 1 std.
+    :param clip_coef: The PPO surrogate clipping coefficient.
+    :param clip_vloss: Whether to use a clipped loss for the value function.
+    :param ent_coef: Coefficient for entropy loss term.
+    :param vf_coef: Coefficient for value function loss term.
+    :param target_kl: Stop optimization if the KL divergence between the old and new policy exceeds this threshold.
+    :param anneal_entropy: Linearly anneal the entropy coefficient from its initial value to 0.
     """
 
     gae: bool = True
@@ -110,14 +99,14 @@ class PPOConfig:
 class OptimizerConfig:
     """Optimizer settings.
 
-    Attributes:
-        lr: the learning rate of the optimizer
-        bs: the batch size of the optimizer
-        micro_bs: if set, use gradient accumulation to split up batches into smaller microbatches
-        weight_decay: the weight decay of the optimizer
-        anneal_lr: whether to anneal the learning rate
-        update_epochs: the K epochs to update the policy
-        max_grad_norm: the maximum norm for the gradient clipping
+    :param lr: Adam learning rate.
+    :param bs: Batch size.
+    :param micro_bs: Micro batch size size used for gradient accumulation. Using a lower micro batch
+        size reduces memory usage and performance without affecting training dyanmics.
+    :param weight_decay: Adam weight decay.
+    :param anneal_lr: Linearly anneal learning rate from initial learning rate to 0.
+    :param update_epochs: Number of optimizer passes over each batch of rollout samples.
+    :param max_grad_norm: Gradient norm clipping.
     """
 
     lr: float = 2.5e-4
@@ -131,26 +120,29 @@ class OptimizerConfig:
 
 @dataclass
 class TrainConfig(hyperstate.Versioned):
-    """Experiment settings.
+    """Training settings.
 
-    Attributes:
-        net: policy network configuration
-        name: the name of the experiment
-        seed: seed of the experiment
-        total_timesteps: total timesteps of the experiments
-        max_train_time: train for at most this many seconds
-        torch_deterministic: if toggled, `torch.backends.cudnn.deterministic=False`
-        vf_net: value function network configuration (if not set, policy and value function share the same network)
-        cuda: if toggled, cuda will be enabled by default
-        track: if toggled, this experiment will be tracked with Weights and Biases
-        wandb_project_name: the wandb's project name
-        wandb_entity: the entity (team) of wandb's project
-        capture_samples: if set, write the samples to this file
-        capture_logits: If --capture-samples is set, record full logits of the agent
-        capture_samples_subsample: only persist every nth sample, chosen randomly
-        trial: trial number of experiment spawned by hyperparameter tuner
-        data_dir: Directory to save output from training and logging
-        cuda_empty_cache: If toggled, empty the cuda cache after each optimizer step.
+    :param env: Settings for the environment.
+    :param net: Hyperparameters for policy network.
+    :param optim: Hyperparameters for optimizer.
+    :param ppo: Hyperparameters for PPO.
+    :param rollout: Hyperparameters for rollout phase.
+    :param eval: Optional evaluation settings.
+    :param vf_net: Hyperparameters for value function network (if not set, policy and value function share the same network).
+    :param name: The name of the experiment.
+    :param seed: Seed of the experiment.
+    :param total_timesteps: Total number of timesteps to run for.
+    :param max_train_time: Train for at most this many seconds.
+    :param torch_deterministic: Sets the value of ``torch.backends.cudnn.deterministic``.
+    :param cuda: If ``True``, cuda will be enabled by default.
+    :param track: Track experiment metrics with Weights and Biases.
+    :param wandb_project_name: Name of the W&B project to log metrics to.
+    :param wandb_entity: The entity (team) of the W&B project to log metrics to.
+    :param capture_samples: Write all samples collected from environments during training to this file.
+    :param capture_logits: Record full logits of the agent (requires ``capture_samples``).
+    :param capture_samples_subsample: Only persist every nth sample, chosen randomly (requires ``capture_samples``).
+    :param data_dir: Directory to save output from training and logging.
+    :param cuda_empty_cache: Empty the torch cuda cache after each optimizer step.
     """
 
     env: EnvConfig

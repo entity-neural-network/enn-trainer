@@ -106,6 +106,19 @@ def create_random_opponent(
 
 @dataclass
 class State(hyperstate.Lazy):
+    """
+    Mutable state of training run.
+
+    :param step: The number of elapsed environment steps.
+    :param restart: The number of times the training has been restarted from a checkpoint.
+    :param agent: The policy network.
+    :param value_function: The value function, if separate from the policy network.
+    :param optimizer: AdamW optimizer for the policy network.
+    :param value_optimizer: AdamW optimizer for the value function, if separate from the policy network.
+    :param obs_space: The observation space of the environment.
+    :param action_space: The action space of the environment.
+    """
+
     step: int
     restart: int
     next_eval_step: Optional[int]
@@ -125,6 +138,15 @@ def train(
     ] = None,
     agent: Optional[PPOAgent] = None,
 ) -> float:
+    """
+    Train an agent in an entity-gym environment using proximal policy optimization.
+
+    :param state_manager: The hyperstate StateManager encapsulates the configuration and mutable state of
+        the training run.
+    :param env: The class of the entity-gym environment to train on.
+    :param create_opponent: A function that creates a new opponent agent used for evaluating the agent.
+    :param agent: Custom policy network to use.
+    """
     if state_manager.checkpoint_dir is None and os.path.exists(
         "/xprun/info/config.ron"
     ):
@@ -653,7 +675,10 @@ def _create_agent(
     )
 
 
-def initialize(cfg: TrainConfig, ctx: Dict[str, Any]) -> State:
+def init_train_state(cfg: TrainConfig, ctx: Dict[str, Any]) -> State:
+    """
+    Creates the initial state for training, given a config and context.
+    """
     if cfg.eval is not None:
         if cfg.eval.run_on_first_step:
             next_eval_step: Optional[int] = 0
@@ -700,7 +725,7 @@ def initialize(cfg: TrainConfig, ctx: Dict[str, Any]) -> State:
     )
 
 
-@hyperstate.stateful_command(TrainConfig, State, initialize)
+@hyperstate.stateful_command(TrainConfig, State, init_train_state)
 def _main(state_manager: StateManager) -> None:
     env_cls = ENV_REGISTRY[state_manager.config.env.id]
     train(state_manager, env_cls)
