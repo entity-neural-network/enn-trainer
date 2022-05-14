@@ -48,6 +48,12 @@ class PPOAgent(Protocol):
 
 
 class RogueNetAgent(entity_gym.runner.Agent):
+    """
+    Wraps a rogue_net network, exposing an entity_gym Agent interface.
+
+    :param agent: The underlying RogueNet.
+    """
+
     def __init__(self, agent: RogueNet):
         self.agent = agent
 

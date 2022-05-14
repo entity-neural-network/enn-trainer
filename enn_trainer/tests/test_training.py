@@ -10,13 +10,13 @@ from enn_trainer.train import (
     PPOConfig,
     State,
     TrainConfig,
-    initialize,
+    init_train_state,
     train,
 )
 
 
 def _train(cfg: TrainConfig) -> float:
-    sm = StateManager(TrainConfig, State, initialize, None)
+    sm = StateManager(TrainConfig, State, init_train_state, None)
     sm._config = cfg
     return train(sm, ENV_REGISTRY[cfg.env.id])
 

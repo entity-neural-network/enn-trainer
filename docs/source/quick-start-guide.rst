@@ -35,8 +35,7 @@ Setting up a training script takes just a few lines of code:
 
 .. code-block:: python
 
-    from enn_trainer.config import TrainConfig
-    from enn_trainer.train import State, initialize, train
+    from enn_trainer import TrainConfig, State, init_train_state, train
     from entity_gym.examples.tutorial import TreasureHunt
     import hyperstate
 
@@ -72,9 +71,9 @@ You should see something like the following output:
 The ``meanrew`` column shows the average reward received by the agent on each step.
 If training is successful, you should see this value going up.
 The ``episodic_reward`` column shows the total reward received by the agent in each episode.
-
 For this environment, the maximum reward that can achieved is 5.0.
 As you can see, we're not reaching a very high reward yet.
+
 We can speed up training and improve the performance of the model by changing some of the hyperparameters.
 With the following command, you should be able to reach a reward of more than 3.0:
 
@@ -161,8 +160,7 @@ Run the following code in a Python console:
 
 .. code-block:: python
 
-    from enn_trainer import load_checkpoint
-    from enn_trainer.agent import RogueNetAgent
+    from enn_trainer import load_checkpoint, RogueNetAgent
     from entity_gym.env import *
     checkpoint = load_checkpoint('checkpoints/latest-step000000098304')
     agent = RogueNetAgent(checkpoint.state.agent)
