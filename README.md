@@ -33,12 +33,11 @@ python -m enn_trainer.train --hps-info
 Setting up a training script for a custom entity-gym environment (replace `TreasureHunt` with your environment):
 
 ```python
-from enn_trainer.config import TrainConfig
-from enn_trainer.train import State, initialize, train
+from enn_trainer.config import TrainConfig, State, init_train_state, train
 from entity_gym.examples.tutorial import TreasureHunt
 import hyperstate
 
-@hyperstate.stateful_command(TrainConfig, State, initialize)
+@hyperstate.stateful_command(TrainConfig, State, init_train_state)
 def main(state_manager: hyperstate.StateManager) -> None:
     train(state_manager=state_manager, env=TreasureHunt)
 
