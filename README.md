@@ -5,7 +5,7 @@
 [![Documentation Status](https://readthedocs.org/projects/entity-gym/badge/?version=latest&style=flat-square)](https://enn-trainer.readthedocs.io/en/latest/?badge=latest)
 [![Discord](https://img.shields.io/discord/913497968701747270?style=flat-square)](https://discord.gg/SjVqhSW4Qf)
 
-PPO and behavioral cloning implementations compatible with [Entity Gym](https://github.com/entity-neural-network/entity-gym).
+ENN Trainer allow you to train reinforcement learning agents for [Entity Gym](https://github.com/entity-neural-network/entity-gym) environments with PPO or behavioral cloning.
 
 ## Installation
 
@@ -30,29 +30,20 @@ List all available hyperparameters:
 python -m enn_trainer.train --hps-info
 ```
 
-Training policy for a custom entity-gym environment:
+Setting up a training script for a custom entity-gym environment (replace `TreasureHunt` with your environment):
 
 ```python
-import hyperstate
 from enn_trainer.config import TrainConfig
-from enn_trainer.train import train
-from custom_env import CustomEnv
+from enn_trainer.train import State, initialize, train
+from entity_gym.examples.tutorial import TreasureHunt
+import hyperstate
 
-
-@hyperstate.command(TrainConfig)
-def main(cfg: TrainConfig) -> None:
-    train(cfg=cfg, env_cls=CustomEnv)
+@hyperstate.stateful_command(TrainConfig, State, initialize)
+def main(state_manager: hyperstate.StateManager) -> None:
+    train(state_manager=state_manager, env=TreasureHunt)
 
 if __name__ == "__main__":
     main()
 ```
 
-To run behavioral cloning on recorded samples:
-
-```bash
-# Download data (261MB)
-# Larger 5GB file with 1M samples: https://www.dropbox.com/s/o7jf4r7m0xtm80p/enhanced250m-1m-v2.blob?dl=1
-wget 'https://www.dropbox.com/s/es84ml3wltxdmnh/enhanced250m-60k.blob?dl=1' -O enhanced250m-60k.blob
-# Run training
-poetry run python enn_trainer/enn_trainer/supervised.py dataset_path=enhanced250m-60k.blob optim.batch_size=256 fast_eval_samples=256
-```
+You can find more detailed guides and an API reference on the [documentation website](https://readthedocs.org/projects/entity-gym/badge/?version=latest&style=flat-square). If you run into issues or have a question, feel free to open an issue or ask on [discord](https://discord.gg/SjVqhSW4Qf).
