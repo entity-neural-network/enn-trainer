@@ -13,7 +13,7 @@ Struct(
                         ),
                         default: "{}",
                         has_default: true,
-                        docstring: "JSON dictionary with keyword arguments for the environment",
+                        docstring: "JSON dictionary with keyword arguments for the environment.",
                     ),
                     "id": Field(
                         name: "id",
@@ -22,14 +22,23 @@ Struct(
                         ),
                         default: "MoveToOrigin",
                         has_default: true,
-                        docstring: "the id of the environment",
+                        docstring: "The id of the environment.",
+                    ),
+                    "validate": Field(
+                        name: "validate",
+                        type: Primitive(
+                            type: "bool",
+                        ),
+                        default: true,
+                        has_default: true,
+                        docstring: "Perform runtime checks to ensure that the environment correctly implements the interface.",
                     ),
                 },
                 version: None,
             ),
             default: None,
             has_default: false,
-            docstring: None,
+            docstring: "Settings for the environment.",
         ),
         "net": Field(
             name: "net",
@@ -68,7 +77,7 @@ Struct(
                         type: Primitive(
                             type: "int",
                         ),
-                        default: 1,
+                        default: 2,
                         has_default: true,
                         docstring: "Number of transformer layers.",
                     ),
@@ -86,7 +95,7 @@ Struct(
                         type: Primitive(
                             type: "int",
                         ),
-                        default: 64,
+                        default: 32,
                         has_default: true,
                         docstring: "Dimension of embedding.",
                     ),
@@ -103,7 +112,7 @@ Struct(
                         ),
                         default: None,
                         has_default: true,
-                        docstring: "Replace attention with \"mean\", \"max\", or \"meanmax\" pooling.",
+                        docstring: "Replace attention layer with ``\"mean\"``, ``\"max\"``, or ``\"meanmax\"`` pooling.",
                     ),
                     "relpos_encoding": Field(
                         name: "relpos_encoding",
@@ -270,7 +279,7 @@ Struct(
                         ),
                         default: 16,
                         has_default: true,
-                        docstring: "dimension of keys and queries in select-entity action heads",
+                        docstring: "Dimension of keys and queries in select-entity action heads.",
                     ),
                     "translation": Field(
                         name: "translation",
@@ -337,14 +346,14 @@ Struct(
                         ),
                         default: None,
                         has_default: true,
-                        docstring: "settings for transforming all position features to be centered on one entity",
+                        docstring: "Settings for transforming all position features to be centered on one entity..",
                     ),
                 },
                 version: None,
             ),
             default: None,
             has_default: false,
-            docstring: "policy network configuration",
+            docstring: "Hyperparameters for policy network.",
         ),
         "optim": Field(
             name: "optim",
@@ -356,18 +365,18 @@ Struct(
                         type: Primitive(
                             type: "float",
                         ),
-                        default: 0.00025,
+                        default: 0.001,
                         has_default: true,
-                        docstring: "the learning rate of the optimizer",
+                        docstring: "Adam learning rate.",
                     ),
                     "bs": Field(
                         name: "bs",
                         type: Primitive(
                             type: "int",
                         ),
-                        default: 128,
+                        default: 1024,
                         has_default: true,
-                        docstring: "the batch size of the optimizer",
+                        docstring: "Batch size.",
                     ),
                     "weight_decay": Field(
                         name: "weight_decay",
@@ -376,7 +385,7 @@ Struct(
                         ),
                         default: 0.0,
                         has_default: true,
-                        docstring: "the weight decay of the optimizer",
+                        docstring: "Adam weight decay.",
                     ),
                     "micro_bs": Field(
                         name: "micro_bs",
@@ -387,7 +396,7 @@ Struct(
                         ),
                         default: None,
                         has_default: true,
-                        docstring: "if set, use gradient accumulation to split up batches into smaller microbatches",
+                        docstring: "Micro batch size size used for gradient accumulation. Using a lower micro batch\nsize reduces memory usage and performance without affecting training dyanmics.",
                     ),
                     "anneal_lr": Field(
                         name: "anneal_lr",
@@ -396,7 +405,7 @@ Struct(
                         ),
                         default: true,
                         has_default: true,
-                        docstring: "whether to anneal the learning rate",
+                        docstring: "Linearly anneal learning rate from initial learning rate to 0.",
                     ),
                     "update_epochs": Field(
                         name: "update_epochs",
@@ -405,7 +414,7 @@ Struct(
                         ),
                         default: 3,
                         has_default: true,
-                        docstring: "the K epochs to update the policy",
+                        docstring: "Number of optimizer passes over each batch of rollout samples.",
                     ),
                     "max_grad_norm": Field(
                         name: "max_grad_norm",
@@ -414,14 +423,14 @@ Struct(
                         ),
                         default: 2.0,
                         has_default: true,
-                        docstring: "the maximum norm for the gradient clipping",
+                        docstring: "Gradient norm clipping.",
                     ),
                 },
                 version: None,
             ),
             default: None,
             has_default: false,
-            docstring: None,
+            docstring: "Hyperparameters for optimizer.",
         ),
         "ppo": Field(
             name: "ppo",
@@ -435,7 +444,7 @@ Struct(
                         ),
                         default: true,
                         has_default: true,
-                        docstring: "whether to use GAE for advantage computation",
+                        docstring: "Whether to use generalized advantage estimation for advantage computation.",
                     ),
                     "gamma": Field(
                         name: "gamma",
@@ -444,7 +453,7 @@ Struct(
                         ),
                         default: 0.99,
                         has_default: true,
-                        docstring: "the discount factor gamma",
+                        docstring: "Temporal discount factor gamma.",
                     ),
                     "gae_lambda": Field(
                         name: "gae_lambda",
@@ -453,7 +462,7 @@ Struct(
                         ),
                         default: 0.95,
                         has_default: true,
-                        docstring: "the lambda for the general advantage estimation",
+                        docstring: "The lambda for the generalized advantage estimation.",
                     ),
                     "norm_adv": Field(
                         name: "norm_adv",
@@ -462,7 +471,7 @@ Struct(
                         ),
                         default: true,
                         has_default: true,
-                        docstring: "whether to normalize advantages",
+                        docstring: "Normalize advantages to 0 mean and 1 std.",
                     ),
                     "clip_coef": Field(
                         name: "clip_coef",
@@ -471,7 +480,7 @@ Struct(
                         ),
                         default: 0.2,
                         has_default: true,
-                        docstring: "the surrogate clipping coefficient",
+                        docstring: "The PPO surrogate clipping coefficient.",
                     ),
                     "clip_vloss": Field(
                         name: "clip_vloss",
@@ -480,16 +489,16 @@ Struct(
                         ),
                         default: true,
                         has_default: true,
-                        docstring: "whether or not to use a clipped loss for the value function, as per the paper",
+                        docstring: "Whether to use a clipped loss for the value function.",
                     ),
                     "ent_coef": Field(
                         name: "ent_coef",
                         type: Primitive(
                             type: "float",
                         ),
-                        default: 0.01,
+                        default: 0.1,
                         has_default: true,
-                        docstring: "coefficient of the entropy",
+                        docstring: "Coefficient for entropy loss term.",
                     ),
                     "vf_coef": Field(
                         name: "vf_coef",
@@ -498,7 +507,7 @@ Struct(
                         ),
                         default: 0.5,
                         has_default: true,
-                        docstring: "coefficient of the value function",
+                        docstring: "Coefficient for value function loss term.",
                     ),
                     "target_kl": Field(
                         name: "target_kl",
@@ -509,23 +518,23 @@ Struct(
                         ),
                         default: None,
                         has_default: true,
-                        docstring: "the target KL divergence threshold",
+                        docstring: "Stop optimization if the KL divergence between the old and new policy exceeds this threshold.",
                     ),
                     "anneal_entropy": Field(
                         name: "anneal_entropy",
                         type: Primitive(
                             type: "bool",
                         ),
-                        default: false,
+                        default: true,
                         has_default: true,
-                        docstring: "whether to anneal the entropy coefficient",
+                        docstring: "Linearly anneal the entropy coefficient from its initial value to 0.",
                     ),
                 },
                 version: None,
             ),
             default: None,
             has_default: false,
-            docstring: None,
+            docstring: "Hyperparameters for PPO.",
         ),
         "rollout": Field(
             name: "rollout",
@@ -537,34 +546,34 @@ Struct(
                         type: Primitive(
                             type: "int",
                         ),
-                        default: 128,
+                        default: 16,
                         has_default: true,
-                        docstring: "the number of steps to run in each environment per policy rollout",
+                        docstring: "The number of steps to run in each environment per policy rollout.",
                     ),
                     "num_envs": Field(
                         name: "num_envs",
                         type: Primitive(
                             type: "int",
                         ),
-                        default: 4,
+                        default: 128,
                         has_default: true,
-                        docstring: "the number of parallel game environments",
+                        docstring: "The number of parallel game environments.",
                     ),
                     "processes": Field(
                         name: "processes",
                         type: Primitive(
                             type: "int",
                         ),
-                        default: 1,
+                        default: 8,
                         has_default: true,
-                        docstring: "The number of processes to use to collect env data. The envs are split as equally as possible across the processes",
+                        docstring: "The number of processes to use to collect env data. The envs are split as equally as possible across the processes.",
                     ),
                 },
                 version: None,
             ),
             default: None,
             has_default: false,
-            docstring: None,
+            docstring: "Hyperparameters for rollout phase.",
         ),
         "eval": Field(
             name: "eval",
@@ -588,7 +597,7 @@ Struct(
                             ),
                             default: None,
                             has_default: false,
-                            docstring: "number of global steps between evaluations",
+                            docstring: "Number of environment steps between evaluations.",
                         ),
                         "num_envs": Field(
                             name: "num_envs",
@@ -625,7 +634,7 @@ Struct(
                                             ),
                                             default: "{}",
                                             has_default: true,
-                                            docstring: "JSON dictionary with keyword arguments for the environment",
+                                            docstring: "JSON dictionary with keyword arguments for the environment.",
                                         ),
                                         "id": Field(
                                             name: "id",
@@ -634,7 +643,16 @@ Struct(
                                             ),
                                             default: "MoveToOrigin",
                                             has_default: true,
-                                            docstring: "the id of the environment",
+                                            docstring: "The id of the environment.",
+                                        ),
+                                        "validate": Field(
+                                            name: "validate",
+                                            type: Primitive(
+                                                type: "bool",
+                                            ),
+                                            default: true,
+                                            has_default: true,
+                                            docstring: "Perform runtime checks to ensure that the environment correctly implements the interface.",
                                         ),
                                     },
                                     version: None,
@@ -651,7 +669,7 @@ Struct(
                             ),
                             default: false,
                             has_default: true,
-                            docstring: "if --eval-render-videos is set, videos will be recorded of the environments during evaluation",
+                            docstring: "Render videos of the environments during evaluation.",
                         ),
                         "capture_samples": Field(
                             name: "capture_samples",
@@ -660,7 +678,7 @@ Struct(
                             ),
                             default: "",
                             has_default: true,
-                            docstring: "if set, write the samples from evals to this file",
+                            docstring: "Write samples from evals to this file.",
                         ),
                         "capture_logits": Field(
                             name: "capture_logits",
@@ -669,7 +687,7 @@ Struct(
                             ),
                             default: true,
                             has_default: true,
-                            docstring: "if --eval-capture-samples is set, record full logits of the agent",
+                            docstring: "Record full logits of the agent during evaluation (requires ``capture_samples``).",
                         ),
                         "capture_samples_subsample": Field(
                             name: "capture_samples_subsample",
@@ -678,7 +696,7 @@ Struct(
                             ),
                             default: 1,
                             has_default: true,
-                            docstring: "only persist every nth sample, chosen randomly",
+                            docstring: "Only persist every nth sample, chosen randomly (requires ``capture_samples``).",
                         ),
                         "run_on_first_step": Field(
                             name: "run_on_first_step",
@@ -687,7 +705,7 @@ Struct(
                             ),
                             default: true,
                             has_default: true,
-                            docstring: "whether to run eval on step 0",
+                            docstring: "Whether to run an eval on step 0.",
                         ),
                         "opponent": Field(
                             name: "opponent",
@@ -707,7 +725,7 @@ Struct(
                             ),
                             default: false,
                             has_default: true,
-                            docstring: "Don't evaluate the policy, but instead run the opponent against itself.",
+                            docstring: "Don\'t evaluate the policy, but instead run the opponent against itself.",
                         ),
                     },
                     version: None,
@@ -715,7 +733,7 @@ Struct(
             ),
             default: None,
             has_default: true,
-            docstring: None,
+            docstring: "Optional evaluation settings.",
         ),
         "vf_net": Field(
             name: "vf_net",
@@ -755,7 +773,7 @@ Struct(
                             type: Primitive(
                                 type: "int",
                             ),
-                            default: 1,
+                            default: 2,
                             has_default: true,
                             docstring: "Number of transformer layers.",
                         ),
@@ -773,7 +791,7 @@ Struct(
                             type: Primitive(
                                 type: "int",
                             ),
-                            default: 64,
+                            default: 32,
                             has_default: true,
                             docstring: "Dimension of embedding.",
                         ),
@@ -790,7 +808,7 @@ Struct(
                             ),
                             default: None,
                             has_default: true,
-                            docstring: "Replace attention with \"mean\", \"max\", or \"meanmax\" pooling.",
+                            docstring: "Replace attention layer with ``\"mean\"``, ``\"max\"``, or ``\"meanmax\"`` pooling.",
                         ),
                         "relpos_encoding": Field(
                             name: "relpos_encoding",
@@ -957,7 +975,7 @@ Struct(
                             ),
                             default: 16,
                             has_default: true,
-                            docstring: "dimension of keys and queries in select-entity action heads",
+                            docstring: "Dimension of keys and queries in select-entity action heads.",
                         ),
                         "translation": Field(
                             name: "translation",
@@ -1024,7 +1042,7 @@ Struct(
                             ),
                             default: None,
                             has_default: true,
-                            docstring: "settings for transforming all position features to be centered on one entity",
+                            docstring: "Settings for transforming all position features to be centered on one entity..",
                         ),
                     },
                     version: None,
@@ -1032,7 +1050,7 @@ Struct(
             ),
             default: None,
             has_default: true,
-            docstring: "value function network configuration (if not set, policy and value function share the same network)",
+            docstring: "Hyperparameters for value function network (if not set, policy and value function share the same network).",
         ),
         "name": Field(
             name: "name",
@@ -1041,7 +1059,7 @@ Struct(
             ),
             default: "config",
             has_default: true,
-            docstring: "the name of the experiment",
+            docstring: "The name of the experiment.",
         ),
         "seed": Field(
             name: "seed",
@@ -1050,7 +1068,7 @@ Struct(
             ),
             default: 1,
             has_default: true,
-            docstring: "seed of the experiment",
+            docstring: "Seed of the experiment.",
         ),
         "total_timesteps": Field(
             name: "total_timesteps",
@@ -1059,7 +1077,7 @@ Struct(
             ),
             default: 25000,
             has_default: true,
-            docstring: "total timesteps of the experiments",
+            docstring: "Total number of timesteps to run for.",
         ),
         "max_train_time": Field(
             name: "max_train_time",
@@ -1070,7 +1088,7 @@ Struct(
             ),
             default: None,
             has_default: true,
-            docstring: "train for at most this many seconds",
+            docstring: "Train for at most this many seconds.",
         ),
         "torch_deterministic": Field(
             name: "torch_deterministic",
@@ -1079,7 +1097,7 @@ Struct(
             ),
             default: true,
             has_default: true,
-            docstring: "if toggled, `torch.backends.cudnn.deterministic=False`",
+            docstring: "Sets the value of ``torch.backends.cudnn.deterministic``.",
         ),
         "cuda": Field(
             name: "cuda",
@@ -1088,7 +1106,7 @@ Struct(
             ),
             default: true,
             has_default: true,
-            docstring: "if toggled, cuda will be enabled by default",
+            docstring: "If ``True``, cuda will be enabled by default.",
         ),
         "track": Field(
             name: "track",
@@ -1097,7 +1115,7 @@ Struct(
             ),
             default: false,
             has_default: true,
-            docstring: "if toggled, this experiment will be tracked with Weights and Biases",
+            docstring: "Track experiment metrics with Weights and Biases.",
         ),
         "wandb_project_name": Field(
             name: "wandb_project_name",
@@ -1106,7 +1124,7 @@ Struct(
             ),
             default: "enn-ppo",
             has_default: true,
-            docstring: "the wandb's project name",
+            docstring: "Name of the W&B project to log metrics to.",
         ),
         "wandb_entity": Field(
             name: "wandb_entity",
@@ -1115,7 +1133,7 @@ Struct(
             ),
             default: "entity-neural-network",
             has_default: true,
-            docstring: "the entity (team) of wandb's project",
+            docstring: "The entity (team) of the W&B project to log metrics to.",
         ),
         "capture_samples": Field(
             name: "capture_samples",
@@ -1126,7 +1144,7 @@ Struct(
             ),
             default: None,
             has_default: true,
-            docstring: "if set, write the samples to this file",
+            docstring: "Write all samples collected from environments during training to this file.",
         ),
         "capture_logits": Field(
             name: "capture_logits",
@@ -1135,7 +1153,7 @@ Struct(
             ),
             default: false,
             has_default: true,
-            docstring: "If --capture-samples is set, record full logits of the agent",
+            docstring: "Record full logits of the agent (requires ``capture_samples``).",
         ),
         "capture_samples_subsample": Field(
             name: "capture_samples_subsample",
@@ -1144,7 +1162,7 @@ Struct(
             ),
             default: 1,
             has_default: true,
-            docstring: "only persist every nth sample, chosen randomly",
+            docstring: "Only persist every nth sample, chosen randomly (requires ``capture_samples``).",
         ),
         "trial": Field(
             name: "trial",
@@ -1155,7 +1173,7 @@ Struct(
             ),
             default: None,
             has_default: true,
-            docstring: "trial number of experiment spawned by hyperparameter tuner",
+            docstring: None,
         ),
         "data_dir": Field(
             name: "data_dir",
@@ -1164,7 +1182,7 @@ Struct(
             ),
             default: ".",
             has_default: true,
-            docstring: "Directory to save output from training and logging",
+            docstring: "Directory to save output from training and logging.",
         ),
         "cuda_empty_cache": Field(
             name: "cuda_empty_cache",
@@ -1173,8 +1191,8 @@ Struct(
             ),
             default: false,
             has_default: true,
-            docstring: "If toggled, empty the cuda cache after each optimizer step.",
+            docstring: "Empty the torch cuda cache after each optimizer step.",
         ),
     },
-    version: 1,
+    version: 2,
 )
