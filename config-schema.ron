@@ -1075,7 +1075,7 @@ Struct(
             type: Primitive(
                 type: "int",
             ),
-            default: 25000,
+            default: 1000000,
             has_default: true,
             docstring: "Total number of timesteps to run for.",
         ),
@@ -1194,5 +1194,5 @@ Struct(
             docstring: "Empty the torch cuda cache after each optimizer step.",
         ),
     },
-    version: 2,
+    version: 3,
 )

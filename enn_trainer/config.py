@@ -155,7 +155,7 @@ class TrainConfig(hyperstate.Versioned):
 
     name: str = field(default_factory=lambda: os.path.basename(__file__).rstrip(".py"))
     seed: int = 1
-    total_timesteps: int = 25000
+    total_timesteps: int = 1000000
     max_train_time: Optional[int] = None
     torch_deterministic: bool = True
     cuda: bool = True
@@ -171,7 +171,7 @@ class TrainConfig(hyperstate.Versioned):
 
     @classmethod
     def version(clz) -> int:
-        return 2
+        return 3
 
     @classmethod
     def upgrade_rules(clz) -> Dict[int, List[RewriteRule]]:
@@ -215,6 +215,11 @@ class TrainConfig(hyperstate.Versioned):
                 ),
                 ChangeDefault(
                     field=("vf_net", "d_model"), old_default=64, new_default=32
+                ),
+            ],
+            2: [
+                ChangeDefault(
+                    field=("total_timesteps",), old_default=25000, new_default=1000000
                 ),
             ],
         }
