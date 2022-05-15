@@ -30,9 +30,9 @@ class RolloutConfig:
     :param processes: The number of processes to use to collect env data. The envs are split as equally as possible across the processes.
     """
 
-    steps: int = 128
-    num_envs: int = 4
-    processes: int = 1
+    steps: int = 16
+    num_envs: int = 128
+    processes: int = 8
 
 
 @dataclass
@@ -89,10 +89,10 @@ class PPOConfig:
     norm_adv: bool = True
     clip_coef: float = 0.2
     clip_vloss: bool = True
-    ent_coef: float = 0.01
+    ent_coef: float = 0.1
     vf_coef: float = 0.5
     target_kl: Optional[float] = None
-    anneal_entropy: bool = False
+    anneal_entropy: bool = True
 
 
 @dataclass
@@ -109,8 +109,8 @@ class OptimizerConfig:
     :param max_grad_norm: Gradient norm clipping.
     """
 
-    lr: float = 2.5e-4
-    bs: int = 128
+    lr: float = 0.001
+    bs: int = 1024
     weight_decay: float = 0.0
     micro_bs: Optional[int] = None
     anneal_lr: bool = True
@@ -171,7 +171,7 @@ class TrainConfig(hyperstate.Versioned):
 
     @classmethod
     def version(clz) -> int:
-        return 1
+        return 2
 
     @classmethod
     def upgrade_rules(clz) -> Dict[int, List[RewriteRule]]:
@@ -186,6 +186,35 @@ class TrainConfig(hyperstate.Versioned):
                     field=("vf_net", "relpos_encoding", "per_entity_values"),
                     old_default=True,
                     new_default=False,
+                ),
+            ],
+            1: [
+                ChangeDefault(field=("net", "n_layer"), old_default=1, new_default=2),
+                ChangeDefault(field=("net", "d_model"), old_default=64, new_default=32),
+                ChangeDefault(
+                    field=("optim", "lr"), old_default=0.00025, new_default=0.001
+                ),
+                ChangeDefault(field=("optim", "bs"), old_default=128, new_default=1024),
+                ChangeDefault(
+                    field=("ppo", "ent_coef"), old_default=0.01, new_default=0.1
+                ),
+                ChangeDefault(
+                    field=("ppo", "anneal_entropy"), old_default=False, new_default=True
+                ),
+                ChangeDefault(
+                    field=("rollout", "steps"), old_default=128, new_default=16
+                ),
+                ChangeDefault(
+                    field=("rollout", "num_envs"), old_default=4, new_default=128
+                ),
+                ChangeDefault(
+                    field=("rollout", "processes"), old_default=1, new_default=8
+                ),
+                ChangeDefault(
+                    field=("vf_net", "n_layer"), old_default=1, new_default=2
+                ),
+                ChangeDefault(
+                    field=("vf_net", "d_model"), old_default=64, new_default=32
                 ),
             ],
         }
