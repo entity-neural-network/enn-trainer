@@ -191,11 +191,11 @@ def test_rock_paper_scissors() -> None:
         env=EnvConfig(id="RockPaperScissors"),
         rollout=RolloutConfig(steps=1, num_envs=256),
         optim=OptimizerConfig(bs=256, lr=0.03),
-        ppo=PPOConfig(),
+        ppo=PPOConfig(anneal_entropy=False, ent_coef=0.3),
     )
     meanrew = _train(cfg)
     print(f"Final mean reward: {meanrew}")
-    assert 0.7 <= meanrew <= 1.3
+    assert 0.8 <= meanrew <= 1.1
 
     cfg.env.kwargs = '{"cheat": true}'
     meanrew = _train(cfg)

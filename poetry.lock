@@ -290,7 +290,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
 [[package]]
 name = "entity-gym"
-version = "0.1.2"
+version = "0.1.3"
 description = "Entity Gym"
 category = "main"
 optional = false
@@ -1579,8 +1579,8 @@ docutils = [
     {file = "docutils-0.17.1.tar.gz", hash = "sha256:686577d2e4c32380bb50cbb22f575ed742d58168cee37e99117a854bcd88f125"},
 ]
 entity-gym = [
-    {file = "entity-gym-0.1.2.tar.gz", hash = "sha256:2d27b541d8b2571adea4ea91cb275a71967cb5736a639c341ed9bc4fbce061b0"},
-    {file = "entity_gym-0.1.2-py3-none-any.whl", hash = "sha256:c2b81576e047d232ab28ca03a4b6bd9ba05092462e7d70b3d0b5f6705b866324"},
+    {file = "entity-gym-0.1.3.tar.gz", hash = "sha256:a0d7f680cd7549fbd4c504a2babd9585412a5795ade34f2037e12d131297de6e"},
+    {file = "entity_gym-0.1.3-py3-none-any.whl", hash = "sha256:3ef68acc51ae7a4efff7cb91ee524747f8dc5b5be541f6a18ee2d3e846eb3ebf"},
 ]
 filelock = [
     {file = "filelock-3.7.0-py3-none-any.whl", hash = "sha256:c7b5fdb219b398a5b28c8e4c1893ef5f98ece6a38c6ab2c22e26ec161556fed6"},
