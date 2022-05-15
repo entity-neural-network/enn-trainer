@@ -190,8 +190,8 @@ def test_rock_paper_scissors() -> None:
         net=RogueNetConfig(d_model=16, n_layer=2),
         env=EnvConfig(id="RockPaperScissors"),
         rollout=RolloutConfig(steps=1, num_envs=256),
-        optim=OptimizerConfig(bs=256, lr=0.03),
-        ppo=PPOConfig(anneal_entropy=False, ent_coef=0.3),
+        optim=OptimizerConfig(bs=64, lr=0.01),
+        ppo=PPOConfig(ent_coef=0.1),
     )
     meanrew = _train(cfg)
     print(f"Final mean reward: {meanrew}")
