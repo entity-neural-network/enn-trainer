@@ -32,7 +32,7 @@ class RolloutConfig:
 
     steps: int = 16
     num_envs: int = 128
-    processes: int = 8
+    processes: int = 4
 
 
 @dataclass
@@ -208,7 +208,7 @@ class TrainConfig(hyperstate.Versioned):
                     field=("rollout", "num_envs"), old_default=4, new_default=128
                 ),
                 ChangeDefault(
-                    field=("rollout", "processes"), old_default=1, new_default=8
+                    field=("rollout", "processes"), old_default=1, new_default=4
                 ),
                 ChangeDefault(
                     field=("vf_net", "n_layer"), old_default=1, new_default=2

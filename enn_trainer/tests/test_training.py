@@ -25,9 +25,9 @@ def test_multi_armed_bandit() -> None:
     cfg = TrainConfig(
         total_timesteps=500,
         cuda=False,
-        ppo=PPOConfig(ent_coef=0.0, gamma=0.5),
+        ppo=PPOConfig(ent_coef=0.0, gamma=0.5, anneal_entropy=False),
         env=EnvConfig(id="MultiArmedBandit"),
-        rollout=RolloutConfig(steps=16, processes=2),
+        rollout=RolloutConfig(steps=16, processes=2, num_envs=4),
         net=RogueNetConfig(n_layer=0, d_model=16),
         optim=OptimizerConfig(lr=0.05, bs=16, update_epochs=4),
     )
@@ -42,7 +42,7 @@ def test_minefield() -> None:
         cuda=False,
         net=RogueNetConfig(d_model=16),
         env=EnvConfig(id="Minefield"),
-        rollout=RolloutConfig(steps=16),
+        rollout=RolloutConfig(steps=16, num_envs=4),
         optim=OptimizerConfig(bs=64),
         ppo=PPOConfig(),
     )
@@ -57,7 +57,7 @@ def test_multi_snake() -> None:
         cuda=False,
         net=RogueNetConfig(d_model=16),
         env=EnvConfig(id="MultiSnake"),
-        rollout=RolloutConfig(steps=16),
+        rollout=RolloutConfig(steps=16, num_envs=4),
         optim=OptimizerConfig(bs=64),
         ppo=PPOConfig(),
     )
@@ -72,7 +72,7 @@ def test_not_hotdog() -> None:
         cuda=False,
         net=RogueNetConfig(d_model=16, n_layer=1),
         env=EnvConfig(id="NotHotdog"),
-        rollout=RolloutConfig(steps=16),
+        rollout=RolloutConfig(steps=16, num_envs=4),
         optim=OptimizerConfig(bs=16, lr=0.005),
         ppo=PPOConfig(ent_coef=0.0, gamma=0.5),
     )
@@ -102,7 +102,7 @@ def test_pick_matching_balls() -> None:
         cuda=False,
         net=RogueNetConfig(d_model=16),
         env=EnvConfig(id="PickMatchingBalls"),
-        rollout=RolloutConfig(steps=16),
+        rollout=RolloutConfig(steps=16, num_envs=4),
         optim=OptimizerConfig(bs=64),
         ppo=PPOConfig(),
     )
@@ -195,7 +195,7 @@ def test_rock_paper_scissors() -> None:
     )
     meanrew = _train(cfg)
     print(f"Final mean reward: {meanrew}")
-    assert 0.7 <= meanrew <= 1.2
+    assert 0.7 <= meanrew <= 1.3
 
     cfg.env.kwargs = '{"cheat": true}'
     meanrew = _train(cfg)
