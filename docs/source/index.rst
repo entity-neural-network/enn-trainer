@@ -12,4 +12,5 @@ Contents
    :maxdepth: 3
 
    quick-start-guide
+   internals
    enn_trainer/enn_trainer
