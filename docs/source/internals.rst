@@ -1,3 +1,4 @@
+=========
 Internals
 =========
 
@@ -7,9 +8,9 @@ This document follows an batch of observations from the MineSweeper environment 
 High-level overview
 -------------------
 
-- The `Environment <#environment--observation>`_ (entity-gym) provides a high-level abstraction for an environment.
-- The `VecEnv <#vecenv--observation>`_ (entity-gym) combines multiple environments and exposes a more efficient and lower-level batched representation of observations/actions.
-- The `PPO training loop <#trainpy>`_ (enn-ppo) keeps a sample buffer that combines observations from multiple steps.
+- The `Environment <#environment-observation>`_ (entity-gym) provides a high-level abstraction for an environment.
+- The `VecEnv <#vecenv-vecobs>`_ (entity-gym) combines multiple environments and exposes a more efficient and lower-level batched representation of observations/actions.
+- The `PPO training loop <#enn-trainer-train-py>`_ (enn-ppo) keeps a sample buffer that combines observations from multiple steps.
 - The policy is implemented by `RogueNet <#RogueNet>`_ (rogue-net), a ragged batch transformer that takes lists of entities as input and outputs corresponding lists of actions.
 
 MineSweeper / State
@@ -185,7 +186,7 @@ The ``ListEnv`` is an implementation of ``VecEnv`` that aggregates the observati
 
 - Features of each entity type from all environments are combined into a single ``RaggedBufferF32``
 - Action masks from each action type from all environments are combined into a single ``RaggedBufferBool``
-- Instead of specifying the ``actors`` and ``actees`` of each action using ``EntityID``s, we use the corresponding integer indices instead. The index of an entity is defined as follows:
+- Instead of specifying the ``actors`` and ``actees`` of each action using ``EntityID`` s, we use the corresponding integer indices instead. The index of an entity is defined as follows:
 
   - The ``entities`` field of the ``ObsSpace`` specified by an ``Environment`` defines an ordering of the entity types.
   - In this case, the entity types are ordered as ``["Mine", "Robot", "Orbital Cannon"]``.
@@ -408,6 +409,7 @@ We project the resulting embeddings onto the number of choices for each action t
 .. raw:: html
 
    </details>
+
 |
 
 Select Entity Action Head
@@ -499,4 +501,5 @@ The resulting ``Action`` objects are dispatched to the ``act`` methods of the in
 .. raw:: html
 
    </details>
+
 |
