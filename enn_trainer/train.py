@@ -90,18 +90,27 @@ def _env_factory(
     return _create_env
 
 
-def create_random_opponent(
+def load_rogue_net_opponent(
     path: str,
     obs_space: ObsSpace,
     action_space: Mapping[str, ActionSpace],
     device: torch.device,
 ) -> PPOAgent:
-    return RogueNet(
-        RogueNetConfig(),
-        obs_space,
-        dict(action_space),
-        regression_heads={"value": 1},
-    ).to(device)
+    if path == "random":
+        return RogueNet(
+            RogueNetConfig(),
+            obs_space,
+            dict(action_space),
+            regression_heads={"value": 1},
+        ).to(device)
+    else:
+        return StateManager(
+            TrainConfig,
+            State,
+            init_train_state,
+            init_path=path,
+            ignore_extra_fields=True,
+        ).state.agent
 
 
 @dataclass
@@ -312,7 +321,7 @@ def train(
                     cfg.env,
                     cfg.rollout,
                     create_env,
-                    create_opponent or create_random_opponent,
+                    create_opponent or load_rogue_net_opponent,
                     agent,
                     device,
                     tracer,

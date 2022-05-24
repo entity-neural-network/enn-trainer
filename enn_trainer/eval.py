@@ -35,25 +35,16 @@ def run_eval(
     processes = cfg.processes or rollout.processes
     num_envs = cfg.num_envs or rollout.num_envs
 
-    metric_filter: Optional[npt.NDArray[np.bool8]] = None
-
-    envs: VecEnv = AddMetricsWrapper(
-        create_env(
-            cfg.env or env_cfg,
-            num_envs // parallelism,
-            processes,
-            rank * num_envs // parallelism,
-        ),
-        metric_filter,
+    envs: VecEnv = create_env(
+        cfg.env or env_cfg,
+        num_envs // parallelism,
+        processes,
+        rank * num_envs // parallelism,
     )
     obs_space = envs.obs_space()
     action_space = envs.action_space()
 
-    assert num_envs % parallelism == 0, (
-        "Number of eval environments must be divisible by parallelism: "
-        f"{num_envs} % {parallelism} = {num_envs % parallelism}"
-    )
-
+    metric_filter: Optional[npt.NDArray[np.bool8]] = None
     if cfg.opponent is not None:
         opponent = create_opponent(cfg.opponent, obs_space, action_space, device)
         if cfg.opponent_only:
@@ -71,6 +62,13 @@ def run_eval(
             metric_filter = np.arange(num_envs // parallelism) % 2 == 0
     else:
         agents = agent
+
+    envs = AddMetricsWrapper(envs, metric_filter)
+
+    assert num_envs % parallelism == 0, (
+        "Number of eval environments must be divisible by parallelism: "
+        f"{num_envs} % {parallelism} = {num_envs % parallelism}"
+    )
 
     if cfg.capture_samples:
         envs = SampleRecordingVecEnv(
