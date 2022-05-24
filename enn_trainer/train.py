@@ -105,7 +105,11 @@ def load_rogue_net_opponent(
         ).to(device)
     else:
         return StateManager(
-            TrainConfig, State, init_train_state, init_path=path, ignore_extra_fields=True,
+            TrainConfig,
+            State,
+            init_train_state,
+            init_path=path,
+            ignore_extra_fields=True,
         ).state.agent
 
 
