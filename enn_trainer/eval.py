@@ -1,14 +1,13 @@
 import json
 from typing import Callable, List, Mapping, Optional, Tuple, Union
-import dataclasses
 
-from entity_gym.env.vec_env import Metric
 import numpy as np
 import numpy.typing as npt
 import torch
 import torch.distributed as dist
 from entity_gym.env import *
 from entity_gym.env.add_metrics_wrapper import AddMetricsWrapper
+from entity_gym.env.vec_env import Metric
 from entity_gym.serialization import SampleRecordingVecEnv
 from entity_gym.simple_trace import Tracer
 from torch.utils.tensorboard import SummaryWriter
