@@ -68,11 +68,11 @@ def test_multi_snake() -> None:
 
 def test_not_hotdog() -> None:
     cfg = TrainConfig(
-        total_timesteps=500,
+        total_timesteps=1000,
         cuda=False,
         net=RogueNetConfig(d_model=16, n_layer=1),
         env=EnvConfig(id="NotHotdog"),
-        rollout=RolloutConfig(steps=16, num_envs=4),
+        rollout=RolloutConfig(steps=16, num_envs=8),
         optim=OptimizerConfig(bs=16, lr=0.005),
         ppo=PPOConfig(ent_coef=0.0, gamma=0.5),
     )
