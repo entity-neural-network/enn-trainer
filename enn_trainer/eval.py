@@ -1,3 +1,4 @@
+import json
 from typing import Callable, List, Mapping, Optional, Tuple, Union
 
 import numpy as np
@@ -6,6 +7,7 @@ import torch
 import torch.distributed as dist
 from entity_gym.env import *
 from entity_gym.env.add_metrics_wrapper import AddMetricsWrapper
+from entity_gym.env.vec_env import Metric
 from entity_gym.serialization import SampleRecordingVecEnv
 from entity_gym.simple_trace import Tracer
 from torch.utils.tensorboard import SummaryWriter
@@ -88,21 +90,36 @@ def run_eval(
         capture_videos=cfg.capture_videos,
         capture_logits=cfg.capture_logits,
     )
+    for i in range(rank + 1):
+        metrics[f"r{rank}m{i}"] = Metric(
+            count=2, sum=10 * (rank + 1), min=0, max=10 * (rank + 1)
+        )
 
     if parallelism > 1:
-        for metric in metrics.values():
-            tcount = torch.tensor(metric.count)
-            tsum = torch.tensor(metric.sum)
-            tmax = torch.tensor(metric.max)
-            tmin = torch.tensor(metric.min)
-            dist.all_reduce(tcount, op=dist.ReduceOp.SUM)
-            dist.all_reduce(tsum, op=dist.ReduceOp.SUM)
-            dist.all_reduce(tmax, op=dist.ReduceOp.MAX)
-            dist.all_reduce(tmin, op=dist.ReduceOp.MIN)
-            metric.count = int(tcount.item())
-            metric.sum = tsum.item()
-            metric.max = tmax.item()
-            metric.min = tmin.item()
+        serialized_metrics = json.dumps(
+            {
+                k: {
+                    "count": int(v.count),
+                    "sum": float(v.sum),
+                    "min": float(v.min),
+                    "max": float(v.max),
+                }
+                for k, v in metrics.items()
+            }
+        )
+        metrics_tensor = torch.tensor(
+            bytearray(serialized_metrics.encode("utf-8")), dtype=torch.uint8
+        )
+        metrics = {}
+        for metrics_tensor in allgather(metrics_tensor, rank, parallelism):
+            for k, v in json.loads(
+                metrics_tensor.numpy().tobytes().decode("utf-8")
+            ).items():
+                m = Metric(**v)
+                if k in metrics:
+                    metrics[k] += m
+                else:
+                    metrics[k] = m
     if writer is not None:
         if cfg.capture_videos:
             # save the videos
@@ -122,3 +139,18 @@ def run_eval(
         f"[eval] global_step={global_step} {'  '.join(f'{name}={value.mean}' for name, value in metrics.items())}"
     )
     envs.close()
+
+
+def allgather(tensor: torch.Tensor, rank: int, parallelism: int) -> List[torch.Tensor]:
+    sizes = [torch.zeros(1, dtype=torch.long) for _ in range(parallelism)]
+    dist.all_gather(sizes, torch.tensor([tensor.nelement()], dtype=torch.long))
+    alltensors = []
+    for src, size in enumerate(sizes):
+        if src == rank:
+            dist.broadcast(tensor, src)
+            alltensors.append(tensor)
+        else:
+            result = torch.zeros(int(size.item()), dtype=tensor.dtype)
+            dist.broadcast(result, src)
+            alltensors.append(result)
+    return alltensors
