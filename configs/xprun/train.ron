@@ -2,7 +2,7 @@ XpV0(
     project: "enn",
     containers: {
         "main": (
-            command: ["poetry", "run", "python", "-u", "enn_zoo/enn_zoo/train.py"],
+            command: ["poetry", "run", "python", "-u", "enn_trainer/train.py"],
             build: [
                 From("nvcr.io/nvidia/pytorch:21.03-py3"),
 
@@ -37,22 +37,11 @@ XpV0(
                     paths: [
                         "pyproject.toml",
                         "poetry.lock",
-                        "rogue_net/pyproject.toml",
-                        "rogue_net/poetry.lock",
-                        "rogue_net/rogue_net/__init__.py",
-                        "enn_ppo/pyproject.toml",
-                        "enn_ppo/poetry.lock",
-                        "enn_ppo/enn_ppo/__init__.py",
-                        "entity_gym/pyproject.toml",
-                        "entity_gym/poetry.lock",
-                        "entity_gym/entity_gym/__init__.py",
-                        "enn_zoo/pyproject.toml",
-                        "enn_zoo/poetry.lock",
-                        "enn_zoo/enn_zoo/__init__.py",
+                        "enn_trainer/__init__.py",
                     ],
-                    target_dir: "/root/enn-incubator",
+                    target_dir: "/root/enn-trainer",
                     cd: true,
-                    rev: "cf16b20",
+                    rev: "97964be",
                 ),
 
                 // Build xprun from source
@@ -70,20 +59,9 @@ XpV0(
                     paths: [
                         "pyproject.toml",
                         "poetry.lock",
-                        "rogue_net/pyproject.toml",
-                        "rogue_net/poetry.lock",
-                        "rogue_net/rogue_net/__init__.py",
-                        "enn_ppo/pyproject.toml",
-                        "enn_ppo/poetry.lock",
-                        "enn_ppo/enn_ppo/__init__.py",
-                        "entity_gym/pyproject.toml",
-                        "entity_gym/poetry.lock",
-                        "entity_gym/entity_gym/__init__.py",
-                        "enn_zoo/pyproject.toml",
-                        "enn_zoo/poetry.lock",
-                        "enn_zoo/enn_zoo/__init__.py",
+                        "enn_trainer/__init__.py",
                     ],
-                    target_dir: "/root/enn-incubator",
+                    target_dir: "/root/enn-trainer",
                     cd: true,
                 ),
                 Run("poetry install"),

@@ -162,12 +162,13 @@ def train(
         import xprun  # type: ignore
 
         xp_info = xprun.current_xp()
-        state_manager.checkpoint_dir = (
-            Path("/xprun/data")
-            / xp_info.xp_def.project
-            / (xp_info.sanitized_name + "-" + xp_info.id)
-            / "checkpoints"
-        )
+        if xp_info.replica_index == 0:
+            state_manager.checkpoint_dir = (
+                Path("/xprun/data")
+                / xp_info.xp_def.project
+                / (xp_info.sanitized_name + "-" + xp_info.id)
+                / "checkpoints"
+            )
 
     cfg = state_manager.config
     cuda = torch.cuda.is_available() and cfg.cuda
@@ -246,6 +247,8 @@ def train(
     state_manager.set_deserialize_ctx("action_space", action_space)
     state_manager.set_deserialize_ctx("agent", agent)
     state = state_manager.state
+    if rank != 0:
+        state_manager.checkpoint_dir = None
     if state.step > 0:
         state.restart += 1
     agent = state.agent.to(device)
