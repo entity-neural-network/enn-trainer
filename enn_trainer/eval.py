@@ -90,10 +90,6 @@ def run_eval(
         capture_videos=cfg.capture_videos,
         capture_logits=cfg.capture_logits,
     )
-    for i in range(rank + 1):
-        metrics[f"r{rank}m{i}"] = Metric(
-            count=2, sum=10 * (rank + 1), min=0, max=10 * (rank + 1)
-        )
 
     if parallelism > 1:
         serialized_metrics = json.dumps(
