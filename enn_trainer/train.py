@@ -16,6 +16,7 @@ import torch.distributed as dist
 import torch.nn as nn
 import torch.optim as optim
 from entity_gym.env import *
+from entity_gym.env.vec_env import Metric
 from entity_gym.env.add_metrics_wrapper import AddMetricsWrapper
 from entity_gym.env.validator import ValidatingEnv
 from entity_gym.examples import ENV_REGISTRY
@@ -27,7 +28,7 @@ from torch.utils.tensorboard import SummaryWriter
 
 from enn_trainer.agent import PPOAgent
 from enn_trainer.config import *
-from enn_trainer.eval import run_eval
+from enn_trainer.eval import allgather, run_eval
 from enn_trainer.gae import returns_and_advantages
 from enn_trainer.ppo import ppo_loss, value_loss
 from enn_trainer.rollout import Rollout
@@ -110,7 +111,7 @@ def load_rogue_net_opponent(
             init_train_state,
             init_path=path,
             ignore_extra_fields=True,
-        ).state.agent
+        ).state.agent.to(device)
 
 
 @dataclass
@@ -377,19 +378,30 @@ def train(
         global_step = rollout.global_step * parallelism + initial_step
 
         if parallelism > 1:
-            for metric in metrics.values():
-                tcount = torch.tensor(metric.count)
-                tsum = torch.tensor(metric.sum)
-                tmax = torch.tensor(metric.max)
-                tmin = torch.tensor(metric.min)
-                dist.all_reduce(tcount, op=dist.ReduceOp.SUM)
-                dist.all_reduce(tsum, op=dist.ReduceOp.SUM)
-                dist.all_reduce(tmax, op=dist.ReduceOp.MAX)
-                dist.all_reduce(tmin, op=dist.ReduceOp.MIN)
-                metric.count = int(tcount.item())
-                metric.sum = tsum.item()
-                metric.max = tmax.item()
-                metric.min = tmin.item()
+            serialized_metrics = json.dumps(
+                {
+                    k: {
+                        "count": int(v.count),
+                        "sum": float(v.sum),
+                        "min": float(v.min),
+                        "max": float(v.max),
+                    }
+                    for k, v in metrics.items()
+                }
+            )
+            metrics_tensor = torch.tensor(
+                bytearray(serialized_metrics.encode("utf-8")), dtype=torch.uint8
+            )
+            metrics = {}
+            for metrics_tensor in allgather(metrics_tensor, rank, parallelism):
+                for k, v in json.loads(
+                    metrics_tensor.numpy().tobytes().decode("utf-8")
+                ).items():
+                    m = Metric(**v)
+                    if k in metrics:
+                        metrics[k] += m
+                    else:
+                        metrics[k] = m
         if rank == 0:
             for name, value in metrics.items():
                 writer.add_scalar(f"{name}.mean", value.mean, global_step)
