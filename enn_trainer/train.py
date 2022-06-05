@@ -16,9 +16,9 @@ import torch.distributed as dist
 import torch.nn as nn
 import torch.optim as optim
 from entity_gym.env import *
-from entity_gym.env.vec_env import Metric
 from entity_gym.env.add_metrics_wrapper import AddMetricsWrapper
 from entity_gym.env.validator import ValidatingEnv
+from entity_gym.env.vec_env import Metric
 from entity_gym.examples import ENV_REGISTRY
 from entity_gym.serialization import SampleRecordingVecEnv
 from entity_gym.simple_trace import Tracer
