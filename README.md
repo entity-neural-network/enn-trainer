@@ -45,4 +45,4 @@ if __name__ == "__main__":
     main()
 ```
 
-You can find more detailed guides and an API reference on the [documentation website](https://readthedocs.org/projects/entity-gym/badge/?version=latest&style=flat-square). If you run into issues or have a question, feel free to open an issue or ask on [discord](https://discord.gg/SjVqhSW4Qf).
+You can find more detailed guides and an API reference on the [documentation website](https://enn-trainer.readthedocs.io/en/latest/). If you run into issues or have a question, feel free to open an issue or ask on [discord](https://discord.gg/SjVqhSW4Qf).
