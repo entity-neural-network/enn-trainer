@@ -153,7 +153,7 @@ def test_relpos_encoding() -> None:
     cfg.net.relpos_encoding = None
     meanrew = _train(cfg)
     print(f"Final mean reward: {meanrew}")
-    assert meanrew < 0.2
+    assert meanrew < 0.3
 
 
 def test_asymmetric_relpos_encoding() -> None:
