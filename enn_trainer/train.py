@@ -341,6 +341,7 @@ def train(
     for update in range(
         1 + initial_step // (cfg.rollout.num_envs * cfg.rollout.steps), num_updates + 1
     ):
+        update_start_time = time.time()
         if (
             cfg.eval is not None
             and state.next_eval_step is not None
@@ -602,7 +603,11 @@ def train(
                                 global_step,
                             )
 
-            fps = (global_step - initial_step) / (time.time() - start_time)
+            fps = (
+                cfg.rollout.num_envs
+                * cfg.rollout.steps
+                / (time.time() - update_start_time)
+            )
             digits = int(np.ceil(np.log10(cfg.total_timesteps)))
             episodic_reward = metrics["episodic_reward"].mean
             episode_length = metrics["episode_length"].mean
@@ -641,6 +646,7 @@ def train(
                 int((global_step - initial_step) / (time.time() - start_time)),
                 global_step,
             )
+            writer.add_scalar("throughput", fps, global_step)
         tracer.end("metrics")
         tracer.end("update")
         traces = tracer.finish()
