@@ -105,13 +105,15 @@ def load_rogue_net_opponent(
             regression_heads={"value": 1},
         ).to(device)
     else:
-        return StateManager(
+        agent = StateManager(
             TrainConfig,
             State,
             init_train_state,
             init_path=path,
             ignore_extra_fields=True,
-        ).state.agent.to(device)
+        ).state.agent
+        agent.set_obs_filter(obs_space)
+        return agent.to(device)
 
 
 @dataclass
