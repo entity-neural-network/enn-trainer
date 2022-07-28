@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "enn-trainer"
-version = "0.1.8"
+version = "0.1.9"
 description = "PPO and supervised training loops compatible with entity-gym"
 authors = ["Clemens Winter <clemenswinter1@gmail.com>"]
 
