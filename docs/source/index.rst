@@ -1,5 +1,5 @@
 Welcome to Entity Neural Network Trainer's documentation!
-======================================
+=========================================================
 
 **Entity Neural Network Trainer** allows you train agents for entity-gym
 Entity Gym extends the standard paradigm of fixed-size observation spaces by allowing observations to contain dynamically-sized lists of entities.

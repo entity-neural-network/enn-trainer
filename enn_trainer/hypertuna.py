@@ -14,7 +14,11 @@ from typing import Any, Callable, Dict, List, Optional, Tuple
 import numpy as np
 import optuna
 import wandb
-import xprun  # type: ignore
+
+try:
+    import xprun  # type: ignore
+except ImportError:
+    xprun = None
 
 logger = logging.getLogger(__name__)
 
