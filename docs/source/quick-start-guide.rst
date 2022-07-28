@@ -22,9 +22,8 @@ To install the enn_trainer package, run the following command:
 .. code-block:: console
 
     $ pip install enn-trainer
-    $ pip install setuptools==59.5.0
-    $ pip install torch==1.10.2+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
-    $ pip install torch-scatter -f https://data.pyg.org/whl/torch-1.10.0+cu113.html
+    $ pip install torch==1.12.0+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
+    $ pip install torch-scatter -f https://data.pyg.org/whl/torch-1.12.0+cu113.html
 
 Training
 ========
