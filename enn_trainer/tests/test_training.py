@@ -195,7 +195,7 @@ def test_rock_paper_scissors() -> None:
     )
     meanrew = _train(cfg)
     print(f"Final mean reward: {meanrew}")
-    assert 0.8 <= meanrew <= 1.1
+    assert 0.8 <= meanrew <= 1.2
 
     cfg.env.kwargs = '{"cheat": true}'
     meanrew = _train(cfg)
