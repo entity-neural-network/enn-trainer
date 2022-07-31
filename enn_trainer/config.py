@@ -110,6 +110,7 @@ class OptimizerConfig:
     """
 
     lr: float = 0.001
+    lr_warmup_steps: Optional[int] = None
     bs: int = 1024
     weight_decay: float = 0.0
     micro_bs: Optional[int] = None

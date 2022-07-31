@@ -361,16 +361,29 @@ def train(
             break
 
         # Annealing the rate if instructed to do so.
-        if cfg.optim.anneal_lr:
-            frac = 1.0 - (update - 1.0) / num_updates
+        if (
+            cfg.optim.lr_warmup_steps is not None
+            and state.step < cfg.optim.lr_warmup_steps
+        ):
+            lrnow = cfg.optim.lr * (state.step / cfg.optim.lr_warmup_steps)
+        elif cfg.optim.anneal_lr:
+            warmup_updates = (cfg.optim.lr_warmup_steps or 0) / (
+                cfg.rollout.num_envs * cfg.rollout.steps
+            )
+            train_frac_remaining = 1.0 - (update - 1.0 - warmup_updates) / (
+                num_updates - warmup_updates
+            )
             if cfg.max_train_time is not None:
-                frac = min(
-                    frac, max(0, 1.0 - (time.time() - start_time) / cfg.max_train_time)
+                train_frac_remaining = min(
+                    train_frac_remaining,
+                    max(0, 1.0 - (time.time() - start_time) / cfg.max_train_time),
                 )
-            lrnow = frac * cfg.optim.lr
-            optimizer.param_groups[0]["lr"] = lrnow
-            if vf_optimizer is not None:
-                vf_optimizer.param_groups[0]["lr"] = lrnow
+            lrnow = train_frac_remaining * cfg.optim.lr
+        else:
+            lrnow = cfg.optim.lr
+        optimizer.param_groups[0]["lr"] = lrnow
+        if vf_optimizer is not None:
+            vf_optimizer.param_groups[0]["lr"] = lrnow
 
         tracer.start("rollout")
 
@@ -509,17 +522,17 @@ def train(
 
                     # TODO: what's correct way of combining entropy loss from multiple actions/actors on the same timestep?
                     if cfg.ppo.anneal_entropy:
-                        frac = 1.0 - (update - 1.0) / num_updates
+                        train_frac_remaining = 1.0 - (update - 1.0) / num_updates
                         if cfg.max_train_time is not None:
-                            frac = min(
-                                frac,
+                            train_frac_remaining = min(
+                                train_frac_remaining,
                                 max(
                                     0,
                                     1.0
                                     - (time.time() - start_time) / cfg.max_train_time,
                                 ),
                             )
-                        ent_coef = frac * cfg.ppo.ent_coef
+                        ent_coef = train_frac_remaining * cfg.ppo.ent_coef
                     else:
                         ent_coef = cfg.ppo.ent_coef
                     entropy_loss = torch.cat([e for e in entropy.values()]).mean()
