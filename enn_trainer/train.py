@@ -573,7 +573,8 @@ def train(
         y_pred, y_true = b_values.cpu().numpy(), b_returns.cpu().numpy()
         var_y = np.var(y_true)
         explained_var = torch.tensor(
-            np.nan if var_y == 0 else 1 - np.var(y_true - y_pred) / var_y, dtype=torch.float
+            np.nan if var_y == 0 else 1 - np.var(y_true - y_pred) / var_y,
+            dtype=torch.float,
         )
         clipfrac = torch.tensor(np.mean(clipfracs))
         if parallelism > 1:
