@@ -224,8 +224,24 @@ class TrainConfig(hyperstate.Versioned):
                 ),
             ],
             3: [
-                ChangeDefault(field=('net', 'relpos_encoding', 'enable_negative_distance_weight_bug'), old_default=True, new_default=False),
-                ChangeDefault(field=('vf_net', 'relpos_encoding', 'enable_negative_distance_weight_bug'), old_default=True, new_default=False),
+                ChangeDefault(
+                    field=(
+                        "net",
+                        "relpos_encoding",
+                        "enable_negative_distance_weight_bug",
+                    ),
+                    old_default=True,
+                    new_default=False,
+                ),
+                ChangeDefault(
+                    field=(
+                        "vf_net",
+                        "relpos_encoding",
+                        "enable_negative_distance_weight_bug",
+                    ),
+                    old_default=True,
+                    new_default=False,
+                ),
             ],
         }
 
