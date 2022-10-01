@@ -172,7 +172,7 @@ class TrainConfig(hyperstate.Versioned):
 
     @classmethod
     def version(clz) -> int:
-        return 3
+        return 4
 
     @classmethod
     def upgrade_rules(clz) -> Dict[int, List[RewriteRule]]:
@@ -222,6 +222,10 @@ class TrainConfig(hyperstate.Versioned):
                 ChangeDefault(
                     field=("total_timesteps",), old_default=25000, new_default=1000000
                 ),
+            ],
+            3: [
+                ChangeDefault(field=('net', 'relpos_encoding', 'enable_negative_distance_weight_bug'), old_default=True, new_default=False),
+                ChangeDefault(field=('vf_net', 'relpos_encoding', 'enable_negative_distance_weight_bug'), old_default=True, new_default=False),
             ],
         }
 

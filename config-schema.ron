@@ -264,6 +264,15 @@ Struct(
                                         has_default: true,
                                         docstring: None,
                                     ),
+                                    "enable_negative_distance_weight_bug": Field(
+                                        name: "enable_negative_distance_weight_bug",
+                                        type: Primitive(
+                                            type: "bool",
+                                        ),
+                                        default: false,
+                                        has_default: true,
+                                        docstring: None,
+                                    ),
                                 },
                                 version: None,
                             ),
@@ -368,6 +377,17 @@ Struct(
                         default: 0.001,
                         has_default: true,
                         docstring: "Adam learning rate.",
+                    ),
+                    "lr_warmup_steps": Field(
+                        name: "lr_warmup_steps",
+                        type: Option(
+                            type: Primitive(
+                                type: "int",
+                            ),
+                        ),
+                        default: None,
+                        has_default: true,
+                        docstring: None,
                     ),
                     "bs": Field(
                         name: "bs",
@@ -960,6 +980,15 @@ Struct(
                                             has_default: true,
                                             docstring: None,
                                         ),
+                                        "enable_negative_distance_weight_bug": Field(
+                                            name: "enable_negative_distance_weight_bug",
+                                            type: Primitive(
+                                                type: "bool",
+                                            ),
+                                            default: false,
+                                            has_default: true,
+                                            docstring: None,
+                                        ),
                                     },
                                     version: None,
                                 ),
@@ -1194,5 +1223,5 @@ Struct(
             docstring: "Empty the torch cuda cache after each optimizer step.",
         ),
     },
-    version: 3,
+    version: 4,
 )
