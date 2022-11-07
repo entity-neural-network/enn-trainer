@@ -624,6 +624,7 @@ def train(
                 * cfg.rollout.steps
                 / (time.time() - update_start_time)
             )
+            eps = fps * metrics["entity_count"].mean
             digits = int(np.ceil(np.log10(cfg.total_timesteps)))
             episodic_reward = metrics["episodic_reward"].mean
             episode_length = metrics["episode_length"].mean
@@ -645,6 +646,7 @@ def train(
             def symstyle(s: str) -> str:
                 return click.style(s, fg="white", bold=True)
 
+            ecountstr = f"{metrics['entity_count'].mean:.1f}"
             # fmt: off
             click.echo(
                 green(f"{global_step:>{digits}}") + symstyle("/") + green(f"{cfg.total_timesteps} ")
@@ -654,7 +656,9 @@ def train(
                 + f"{symstyle('|')} {tstyle('episodic_reward')} {estyle(episodic_reward)} "
                 + f"{symstyle('|')} {tstyle('episode_length')} {estyle(episode_length)} "
                 + f"{symstyle('|')} {tstyle('episodes')} {green(str(episode_count))} "
+                + f"{symstyle('|')} {tstyle('entities')} {green(ecountstr)} "
                 + f"{symstyle('|')} {tstyle('fps')} {green(str(int(fps)))}"
+                + f"{symstyle('|')} {tstyle('eps')} {green(str(int(eps)))}"
             )
             # fmt: on
             writer.add_scalar(
@@ -663,6 +667,8 @@ def train(
                 global_step,
             )
             writer.add_scalar("throughput", fps, global_step)
+            writer.add_scalar("fps", fps, global_step)
+            writer.add_scalar("eps", eps, global_step)
         tracer.end("metrics")
         tracer.end("update")
         traces = tracer.finish()
