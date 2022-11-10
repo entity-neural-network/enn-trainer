@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "enn-trainer"
-version = "0.1.13"
+version = "0.1.14"
 description = "PPO and supervised training loops compatible with entity-gym"
 authors = ["Clemens Winter <clemenswinter1@gmail.com>"]
 
@@ -17,7 +17,7 @@ optuna = "^2.10.0"
 moviepy = "^1.0.3"
 click = "^8.0.4"
 hyperstate = "^0.4.1"
-entity-gym = "^0.1.7"
+entity-gym = "^0.1.8"
 rogue-net = "^0.1.9"
 
 [tool.poetry.dev-dependencies]
