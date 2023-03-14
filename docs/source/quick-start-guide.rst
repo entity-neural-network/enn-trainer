@@ -194,7 +194,7 @@ Let's what happens if we give the agent a somewhat more difficult task by placin
 
 .. code-block:: pycon
 
-    >>> obs.features["Treasure"] = [[-4, 0]]
+    >>> obs.features["Trap"] = [[-4, 0]]
     >>> action, predicted_return = agent.act(obs)
     >>> action
     {'move': GlobalCategoricalAction(index=2, choice='left', probs=array([[7.1715019e-03, 1.7328954e-03, 9.9067581e-01, 4.1975660e-04]],
