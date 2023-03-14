@@ -642,14 +642,14 @@ protobuf = ["grpcio-tools (>=1.49.1)"]
 
 [[package]]
 name = "hyperstate"
-version = "0.4.2"
+version = "0.4.3"
 description = "Library for managing hyperparameters and mutable state of machine learning training systems."
 category = "main"
 optional = false
 python-versions = ">=3.7.1,<3.11.0"
 files = [
-    {file = "hyperstate-0.4.2-py3-none-any.whl", hash = "sha256:84ed396cb49f7b964e3d7f78aa007973ab0e86c52625ec91d71f2aaecff93990"},
-    {file = "hyperstate-0.4.2.tar.gz", hash = "sha256:d8d05a6b4732f5b3edad3d28e4f0a00a41057da818820e87efb4f1128ca9d17f"},
+    {file = "hyperstate-0.4.3-py3-none-any.whl", hash = "sha256:af420d64a6acebf365c8d7560bca300784a23dfefce80c57f6d131092faaf52f"},
+    {file = "hyperstate-0.4.3.tar.gz", hash = "sha256:9cfda2f89b43c5cc0a065bfebcf898123105405c5e49638a9680090662d7f1ae"},
 ]
 
 [package.dependencies]
@@ -2544,4 +2544,4 @@ testing = ["func-timeout", "jaraco.itertools", "pytest (>=6)", "pytest-black (>=
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.7.1,<3.11"
-content-hash = "cea2d4f78a80ba38fef8382a40c0b3bc5b58b5183e7e7220987fede4de4e78d7"
+content-hash = "8d61923786b60c7722ec44d963b8c68e0d53740ba455626c1d9b86ae6f239017"
