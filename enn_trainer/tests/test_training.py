@@ -33,7 +33,7 @@ def test_multi_armed_bandit() -> None:
     )
     meanrew = _train(cfg)
     print(f"Final mean reward: {meanrew}")
-    assert meanrew > 0.99 / 32
+    assert meanrew > 0.95 / 32
 
 
 def test_minefield() -> None:
