@@ -27,3 +27,4 @@ python:
     - method: pip
       path: .
     - requirements: docs/requirements.txt
+    - requirements: docs/requirements-scatter.txt
