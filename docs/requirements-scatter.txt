@@ -1,0 +1,2 @@
+-f https://data.pyg.org/whl/torch-1.12.0+cpu.html
+torch-scatter 
