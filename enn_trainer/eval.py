@@ -34,8 +34,10 @@ def run_eval(
     parallelism: int,
 ) -> None:
     # TODO: metrics are biased towards short episodes
-    processes = cfg.processes or rollout.processes
     num_envs = cfg.num_envs or rollout.num_envs
+    processes = cfg.processes
+    if processes is None:
+        processes = min(rollout.processes, num_envs)
 
     envs: VecEnv = create_env(
         cfg.env or env_cfg,
